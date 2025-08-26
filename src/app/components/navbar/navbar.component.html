@@ -1,1 +1,17 @@
-<p>navbar works!</p>
+<nav class="navbar">
+    <h3 class="navbar__title">Enjoy playing with the board</h3>
+    <div>
+        <select name="choice" id="algo-choice" class="navbar__algorithm-select">
+            <option disabled value="">Choose the algorithm</option>
+            <option value="dijkstra">Dijkstra</option>
+            <option value="astar">A*</option>
+            <option value="greedy">Greedy Best</option>
+            <option value="bfs">BFS</option>
+        </select>
+
+        <fa-icon class="navbar__action" [icon]="faPlay"></fa-icon>
+        <fa-icon class="navbar__action" [icon]="faRedoAlt"></fa-icon>
+        <fa-icon class="navbar__action" [icon]="faEraser"></fa-icon>
+        
+    </div>
+</nav>
