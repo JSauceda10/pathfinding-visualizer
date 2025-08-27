@@ -4,8 +4,7 @@
                 
             <app-square
             *ngFor="let col of board[rowIndex]; let colIndex = index"
-            [rowIndex]="rowIndex"
-            [colIndex]="colIndex"
+            [square]="board[rowIndex][colIndex]"
             >
                 
             </app-square>
