@@ -1,6 +1,7 @@
 export interface Square {
     row: number;
     col: number;
+    isWall: boolean;
 }
 
 export interface Endpoint {

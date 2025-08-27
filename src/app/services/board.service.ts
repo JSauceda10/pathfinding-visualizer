@@ -43,7 +43,8 @@ export class BoardService {
       for(let j = 0; j < newColNumber; j++) {
         row.push({
           row: i,
-          col: j
+          col: j,
+          isWall: false,
         });
       }
       newBoard.push(row);
@@ -68,6 +69,7 @@ export class BoardService {
       this.isTargetPressed = true;
       console.log('pressed target')
     }
+    
   }
 
   handleMouseEnter(square: Square){
@@ -82,6 +84,13 @@ export class BoardService {
     if(this.isTargetPressed && !this.isStartEndpoint(square)) {
       this.setTargetEndpoint(square);
     }
+
+    //Prevent endpoints from being marked as walls
+    if(this.isStartEndpoint(square) || this.isTargetEndpoint(square)) {
+      return;
+    }
+
+    this.toggleIsWall(square);
   }
 
   handleMouseUp(square: Square) {
@@ -103,16 +112,25 @@ export class BoardService {
   }
 
   private setStartEndpoint(square: Square){
-    this.startEndpoint$.next({
-      row: square.row,
-      col: square.col
-    })
+    const {row, col} = square;
+    const board = this.board$.getValue();
+    board[row][col].isWall = false;
+
+    this.startEndpoint$.next({row,col,});
   }
 
   private setTargetEndpoint(square: Square){
-    this.targetEndpoint$.next({
-      row: square.row,
-      col: square.col
-    })
+    const {row, col} = square;
+    const board = this.board$.getValue();
+    board[row][col].isWall = false;
+    
+    this.targetEndpoint$.next({row,col,});
+  }
+
+  private toggleIsWall(square: Square) {
+    const { row, col } = square;
+
+    const board = this.board$.getValue();
+    board[row][col].isWall = !board[row][col].isWall;
   }
 }
