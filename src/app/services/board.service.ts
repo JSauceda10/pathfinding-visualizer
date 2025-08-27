@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Board, Square } from '../models/Board';
+import { Board, Endpoint, Square } from '../models/Board';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,14 @@ import { Board, Square } from '../models/Board';
 export class BoardService {
 
   board$ = new BehaviorSubject<Board>([]);
+  startEndpoint$ = new BehaviorSubject<Endpoint>({
+    row: 13,
+    col: 13
+  });
+  targetEndpoint$ = new BehaviorSubject<Endpoint>({
+    row: 13,
+    col: 23
+  });
 
   numberOfRows = 22;
   numberOfColumns = 60;

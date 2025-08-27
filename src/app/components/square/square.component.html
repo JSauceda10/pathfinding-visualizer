@@ -1,1 +1,6 @@
-<div class="square"></div>
+<div class="square"
+[ngClass]="{
+    'square--start' : isStart$ | async,
+    'square--target' : isTarget$ | async,
+}"
+></div>

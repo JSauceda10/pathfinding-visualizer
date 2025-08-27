@@ -2,7 +2,11 @@
     <div *ngIf="board?.length"  class="board">
         <div *ngFor="let row of board; let rowIndex = index" class="board__row">
                 
-            <app-square *ngFor="let col of board[rowIndex]; let colIndex = index" >
+            <app-square
+            *ngFor="let col of board[rowIndex]; let colIndex = index"
+            [rowIndex]="rowIndex"
+            [colIndex]="colIndex"
+            >
                 
             </app-square>
         </div>
