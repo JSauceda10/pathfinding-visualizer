@@ -2,6 +2,9 @@ export interface Square {
     row: number;
     col: number;
     isWall: boolean;
+    isVisited: boolean;
+    isPath: boolean;
+    previousNode: Square | null;
 }
 
 export interface Endpoint {

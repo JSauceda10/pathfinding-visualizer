@@ -2,7 +2,9 @@
 [ngClass]="{
     'square--start' : isStart$ | async,
     'square--target' : isTarget$ | async,
-    'square--wall' : square.isWall
+    'square--wall' : square.isWall,
+    'square--visited' : square.isVisited && !square.isPath,
+    'square--path' : square.isPath,
 }"
 (mousedown)="mouseDownHandler($event)"
 (mouseenter)="mouseEnterHandler($event)"

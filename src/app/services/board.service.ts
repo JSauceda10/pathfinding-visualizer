@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, debounceTime, fromEvent, tap } from 'rxjs';
 import { Board, Endpoint, Square } from '../models/Board';
+import { AlgorithmsService } from './algorithms.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,14 @@ export class BoardService {
     col: 23
   });
 
-  numberOfRows = 22;
-  numberOfColumns = 60;
+  numberOfRows = 14;
+  numberOfColumns = 30;
 
   isMousePressed: boolean = false;
   isStartPressed: boolean = false;
   isTargetPressed: boolean = false;
 
-  constructor(){
+  constructor(private algorithmService: AlgorithmsService){
     fromEvent(window, 'resize')
     .pipe(debounceTime(300))
     .subscribe(() => this.resetBoard());
@@ -45,6 +46,9 @@ export class BoardService {
           row: i,
           col: j,
           isWall: false,
+          isPath: false,
+          isVisited: false,
+          previousNode: null,
         });
       }
       newBoard.push(row);
@@ -99,6 +103,52 @@ export class BoardService {
     this.isTargetPressed = false;
   }
 
+  visualize() {
+    const board = this.board$.getValue();
+    const startEndpoint = this.startEndpoint$.getValue();
+    const targetEndpoint = this.targetEndpoint$.getValue();
+    const startSquare = board[startEndpoint.row][startEndpoint.col];
+    const targetSquare = board[targetEndpoint.row][targetEndpoint.col];
+
+    const visited = this.algorithmService.bfs(board,
+      startSquare,
+      targetSquare) as any;
+    const path = this.algorithmService.getPathFromStartToTarget(targetSquare);
+    console.log('start visualizing');
+    this.animateVisitedSquares({ visited, shortestPath: path });
+  }
+
+  animateVisitedSquares({
+    visited,
+    shortestPath}: {
+      visited: Square[],
+      shortestPath: Square[]
+    }) {
+    const board = this.board$.getValue();
+    
+    //Animate visited squares
+    for(let i = 0; i < visited.length; i++) {
+      setTimeout(() => {
+        const node = visited[i];
+        board[node.row][node.col].isVisited = true;
+      }, 2 * i); 
+    }
+
+    //Animate the shortest path
+    if(!shortestPath.length){
+      return
+    }
+
+    setTimeout(() => {
+      for(let i = 0; i < shortestPath.length; i++) {
+        setTimeout(() => {
+          const node = shortestPath[i];
+          board[node.row][node.col].isPath = true;
+        }, 2 * i);
+      }
+    }, 2 * visited.length);
+  }
+
   private isStartEndpoint(square: Square) {
     const startEndpoint = this.startEndpoint$.getValue();
     return square.row === startEndpoint.row &&
@@ -123,7 +173,7 @@ export class BoardService {
     const {row, col} = square;
     const board = this.board$.getValue();
     board[row][col].isWall = false;
-    
+
     this.targetEndpoint$.next({row,col,});
   }
 

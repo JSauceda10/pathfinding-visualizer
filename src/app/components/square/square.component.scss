@@ -35,6 +35,52 @@
     &--wall {
         background: black;
     }
+
+    &--path {
+        animation: shortestPathAnimation 1.5s ease-out normal forwards;
+    }
+
+    &--visited {
+        animation: visitedAnimation 2s ease-out normal forwards;
+    }
+
+    @keyframes shortestPathAnimation {
+        0% {
+            transform: scale(0.6);
+            background-color: rgb(255, 254, 106);
+        }
+        50% {
+            transform: scale(1.2);
+            background-color: rgb(255, 254, 106);
+        }
+
+        100% {
+            transform: scale(1);
+            background-color: rgb(255, 254, 106);
+        }
+        
+    }
+
+    @keyframes visitedAnimation {
+        0% {
+            transform: scale(0.3);
+            background-color: rgba(3, 78, 13, 0.75);
+            border-radius: 100%;
+        }
+        50% {
+            background-color: rgba(17, 217, 17, 0.75);
+        }
+
+        75% {
+            transform: scale(1.2);
+            background-color: rgba(20, 248, 25, 0.75);
+        }
+        100% {
+            transform: scale(1);
+            background-color: rgba(140, 255, 140, 0.75);
+        }
+        
+    }
     
 
 
