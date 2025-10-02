@@ -5,6 +5,8 @@ export interface Square {
     isVisited: boolean;
     isPath: boolean;
     previousNode: Square | null;
+    //Evaluation function
+    f: number;
 }
 
 export interface Endpoint {

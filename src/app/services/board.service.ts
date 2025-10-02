@@ -49,6 +49,7 @@ export class BoardService {
           isPath: false,
           isVisited: false,
           previousNode: null,
+          f: Infinity,
         });
       }
       newBoard.push(row);
