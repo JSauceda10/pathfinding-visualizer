@@ -22,4 +22,12 @@ export class NavbarComponent {
   visualize() {
     this.boardService.visualize();
   }
+
+  resetBoard() {
+    this.boardService.resetBoard();
+  }
+
+  clearBoard() {
+    this.boardService.clearBoard();
+  }
 }

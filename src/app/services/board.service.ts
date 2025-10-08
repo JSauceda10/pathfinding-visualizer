@@ -60,6 +60,24 @@ export class BoardService {
     this.numberOfColumns = newColNumber;
     this.board$.next(newBoard);
   }
+
+  //Clear all animated squares from the board.
+  //Walls and weights remain intact
+  clearBoard() {
+    const board = this.board$.getValue();
+
+    for (const row of board) {
+      for (let square of row) {
+        
+        square.g = Infinity; //A*
+        square.f = Infinity; //A* and Greedy
+        square.isPath = false;
+        square.isVisited = false;
+        square.previousNode = null;
+        
+      }
+    }
+  }
     
 
   handleMouseDown(square: Square){

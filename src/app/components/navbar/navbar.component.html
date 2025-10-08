@@ -10,8 +10,8 @@
         </select>
 
         <fa-icon class="navbar__action" [icon]="faPlay" (click)="visualize()"></fa-icon>
-        <fa-icon class="navbar__action" [icon]="faRedoAlt"></fa-icon>
-        <fa-icon class="navbar__action" [icon]="faEraser"></fa-icon>
+        <fa-icon class="navbar__action" [icon]="faRedoAlt" (click)="resetBoard()"></fa-icon>
+        <fa-icon class="navbar__action" [icon]="faEraser" (click)="clearBoard()"></fa-icon>
         
     </div>
 </nav>
