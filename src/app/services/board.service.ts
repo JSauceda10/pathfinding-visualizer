@@ -50,6 +50,7 @@ export class BoardService {
           isVisited: false,
           previousNode: null,
           f: Infinity,
+          g: Infinity,
         });
       }
       newBoard.push(row);

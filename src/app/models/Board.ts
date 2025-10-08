@@ -5,8 +5,10 @@ export interface Square {
     isVisited: boolean;
     isPath: boolean;
     previousNode: Square | null;
-    //Evaluation function
+    //Evaluation function (for A* and Greedy)
     f: number;
+    //cost function for astar
+    g: number;
 }
 
 export interface Endpoint {

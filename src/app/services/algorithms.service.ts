@@ -91,6 +91,61 @@ export class AlgorithmsService {
     return visited
   }
 
+  astar(board: Board, start: Square, target: Square) {
+    // TODO Use priority Queue instead of array
+    const queue: Square[] = []; // nodes to visit next
+    const visited: Square[] = [];
+
+    const h = this.manhattanDistance(target);
+    start.g = 0;
+    start.f = h(start);
+
+    queue.push(start);
+
+    while (queue.length) {
+      // TODO remove sorting when a priority queue is used
+      // Sort unvisited squares by evaluation value
+      queue.sort((a, b) => a.f - b.f);
+
+      // Visit the closes square
+      const node = queue.shift() as Square;
+
+      if (node.isWall) {
+        continue;
+      }
+
+      // Mark node as visited
+      if (!visited.includes(node)) {
+        visited.push(node);
+      }
+
+      // Stop if target reached
+      if (node === target) {
+        return visited;
+      }
+
+      const adjacentSquares = this.getAdjacentSquares(node, board);
+
+      for (const adjacentSquare of adjacentSquares) {
+        if (adjacentSquare.isWall) {
+          continue;
+        }
+
+        if (!visited.includes(adjacentSquare)) {
+          adjacentSquare.previousNode = node;
+          adjacentSquare.g = node.g + 1;
+          adjacentSquare.f = adjacentSquare.g + h(adjacentSquare);
+
+          if (!queue.includes(adjacentSquare)) {
+            queue.push(adjacentSquare);
+          }
+        }
+      }
+    }
+
+    return visited;
+  }
+
   getPathFromStartToTarget(target: Square) {
     const path:Square[] = [];
     for(let currentNode = target; !!currentNode; currentNode = currentNode.previousNode as Square) {
@@ -120,6 +175,10 @@ export class AlgorithmsService {
 
   private directDistance = (a: Square) => (b: Square) => {
     return Math.hypot(Math.abs(a.col - b.col), Math.abs(a.row - b.row))
+  }
+
+  private manhattanDistance = (a: Square) => (b: Square) => {
+    return Math.abs(a.col - b.col) + Math.abs(a.row - b.row);
   }
 
   constructor() { }
